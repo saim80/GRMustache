@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "9EDEC795D04B3E279370B0DA5F4D246DCDBD8B6C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9EDEC795D04B3E279370B0DA5F4D246DCDBD8B6C" : 9223372036854775807,
+    "48AA3806B23A1AB6D8BF7C9BF0EFDA5504AA1DE7" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "92BB79FC-5196-4FC9-A50B-FD5854D3DDE9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9EDEC795D04B3E279370B0DA5F4D246DCDBD8B6C" : "GRMustache\/",
+    "48AA3806B23A1AB6D8BF7C9BF0EFDA5504AA1DE7" : "GRMustache\/src\/tests\/vendor\/mustache\/spec\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "GRMustache",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "src\/GRMustache.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mustache\/spec.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "48AA3806B23A1AB6D8BF7C9BF0EFDA5504AA1DE7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:saim80\/GRMustache.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9EDEC795D04B3E279370B0DA5F4D246DCDBD8B6C"
+    }
+  ]
+}
