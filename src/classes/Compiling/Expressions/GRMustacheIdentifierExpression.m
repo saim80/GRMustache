@@ -76,7 +76,7 @@
     self = [super initWithCoder:aDecoder];
     
     if (self) {
-        _identifier = [aDecoder decodeObjectForKey:@"identifier"];
+        _identifier = [[aDecoder decodeObjectForKey:@"identifier"] retain];
     }
     
     return self;

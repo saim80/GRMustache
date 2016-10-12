@@ -59,5 +59,31 @@
     return [_templateString substringWithRange:_tagInnerRange];
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _type = [aDecoder decodeIntegerForKey:@"type"];
+        _templateString = [[aDecoder decodeObjectForKey:@"templateString"] retain];
+        _templateID = [[aDecoder decodeObjectForKey:@"templateID"] retain];
+        _line = [aDecoder decodeIntegerForKey:@"line"];
+        _range = [[aDecoder decodeObjectForKey:@"range"] rangeValue];
+        _tagInnerRange = [[aDecoder decodeObjectForKey:@"tagInnerRange"] rangeValue];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeInteger:_type forKey:@"type"];
+    [aCoder encodeObject:_templateString forKey:@"templateString"];
+    [aCoder encodeObject:_templateID forKey:@"templateID"];
+    [aCoder encodeInteger:_line forKey:@"line"];
+    [aCoder encodeObject:[NSValue valueWithRange:_range] forKey:@"range"];
+    [aCoder encodeObject:[NSValue valueWithRange:_tagInnerRange] forKey:@"tagInnerRange"];
+}
+
 @end
 

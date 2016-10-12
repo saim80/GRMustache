@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, GRMustacheTokenType) {
  * - a token of type GRMustacheTokenTypeEscapedVariable holding "{{name}}"
  * - a token of type GRMustacheTokenTypeText holding "!"
  */
-@interface GRMustacheToken : NSObject {
+@interface GRMustacheToken : NSObject <NSCoding> {
 @private
     GRMustacheTokenType _type;
     NSString *_templateString;
