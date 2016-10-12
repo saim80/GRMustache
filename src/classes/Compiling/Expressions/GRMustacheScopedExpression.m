@@ -86,7 +86,7 @@
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     
     if (self) {
         _baseExpression = [[aDecoder decodeObjectForKey:@"baseExpression"] retain];
@@ -97,6 +97,7 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
     [aCoder encodeObject:_baseExpression forKey:@"baseExpression"];
     [aCoder encodeObject:_identifier forKey:@"identifier"];
 }

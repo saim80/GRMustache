@@ -89,7 +89,7 @@
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     
     if (self) {
         _filterExpression = [[aDecoder decodeObjectForKey:@"filterExpression"] retain];
@@ -101,6 +101,7 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
     [aCoder encodeObject:_filterExpression forKey:@"filterExpression"];
     [aCoder encodeObject:_argumentExpression forKey:@"argumentExpression"];
     [aCoder encodeBool:_curried forKey:@"curried"];

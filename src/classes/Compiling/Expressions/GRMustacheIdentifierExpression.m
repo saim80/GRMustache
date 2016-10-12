@@ -73,7 +73,7 @@
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     
     if (self) {
         _identifier = [aDecoder decodeObjectForKey:@"identifier"];
@@ -83,6 +83,7 @@
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
     [aCoder encodeObject:_identifier forKey:@"identifier"];
 }
 

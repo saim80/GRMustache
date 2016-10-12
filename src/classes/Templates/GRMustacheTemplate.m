@@ -25,6 +25,7 @@
 #import "GRMustacheTemplateRepository_private.h"
 #import "GRMustacheTemplateAST_private.h"
 #import "GRMustacheRenderingEngine_private.h"
+#import "GRMustacheConfiguration_private.h"
 
 @implementation GRMustacheTemplate
 @synthesize templateRepository=_templateRepository;
@@ -162,7 +163,7 @@
         
         _templateRepository = [templateRepository retain];
         _templateAST        = [[aDecoder decodeObjectForKey:@"templateAST"] retain];
-        _baseContext        = [[_templateRepository valueForKeyPath:@"configuration.baseContext"] retain];
+        _baseContext        = [_templateRepository.configuration.baseContext retain];
     }
     
     return self;
