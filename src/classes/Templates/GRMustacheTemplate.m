@@ -149,4 +149,27 @@
     return [self renderContentWithContext:context HTMLSafe:HTMLSafe error:error];
 }
 
+#pragma mark- NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        GRMustacheTemplateRepository *templateRepository = [GRMustacheRendering currentTemplateRepository];
+        if (templateRepository == nil) {
+            templateRepository = [GRMustacheTemplateRepository templateRepositoryWithBundle:[NSBundle mainBundle]];
+        }
+        
+        _templateRepository = [templateRepository retain];
+        _templateAST        = [[aDecoder decodeObjectForKey:@"templateAST"] retain];
+        _baseContext        = [[_templateRepository valueForKeyPath:@"configuration.baseContext"] retain];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_templateAST forKey:@"templateAST"];
+}
+
 @end

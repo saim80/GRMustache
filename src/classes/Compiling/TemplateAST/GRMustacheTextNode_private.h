@@ -27,7 +27,7 @@
 /**
  * A GRMustacheTextNode is an AST node that represents raw text.
  */
-@interface GRMustacheTextNode: NSObject<GRMustacheTemplateASTNode> {
+@interface GRMustacheTextNode: NSObject<GRMustacheTemplateASTNode, NSCoding> {
 @private
     NSString *_text;
 }

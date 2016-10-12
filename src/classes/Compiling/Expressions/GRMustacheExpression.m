@@ -41,4 +41,20 @@
     return YES;
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _token = [[aDecoder decodeObjectForKey:@"token"] retain];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_token forKey:@"token"];
+}
+
 @end

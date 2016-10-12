@@ -97,4 +97,28 @@
     return self;
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _expression = [[aDecoder decodeObjectForKey:@"expression"] retain];
+        _inverted = [aDecoder decodeBoolForKey:@"inverted"];
+        _templateString = [[aDecoder decodeObjectForKey:@"templateString"] retain];
+        _innerRange = [[aDecoder decodeObjectForKey:@"innerRange"] rangeValue];
+        _innerTemplateAST = [[aDecoder decodeObjectForKey:@"innerTemplateAST"] retain];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_expression forKey:@"expression"];
+    [aCoder encodeBool:_inverted forKey:@"inverted"];
+    [aCoder encodeObject:_templateString forKey:@"templateString"];
+    [aCoder encodeObject:[NSValue valueWithRange:_innerRange] forKey:@"innerRange"];
+    [aCoder encodeObject:_innerTemplateAST forKey:@"innerTemplateAST"];
+}
+
 @end

@@ -26,7 +26,7 @@
  * The GRMustacheScopedExpression represents expressions such as
  * `<expression>.identifier`.
  */
-@interface GRMustacheScopedExpression : GRMustacheExpression {
+@interface GRMustacheScopedExpression : GRMustacheExpression <NSCoding> {
 @private
     GRMustacheExpression *_baseExpression;
     NSString *_identifier;

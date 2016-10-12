@@ -30,7 +30,7 @@
  * A GRMustacheInheritableSection is an AST node that represents inheritable
  * sections as `{{$name}}...{{/name}}`.
  */
-@interface GRMustacheInheritableSectionNode : NSObject<GRMustacheTemplateASTNode> {
+@interface GRMustacheInheritableSectionNode : NSObject<GRMustacheTemplateASTNode, NSCoding> {
 @private
     NSString *_name;
     GRMustacheTemplateAST *_innerTemplateAST;

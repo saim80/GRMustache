@@ -26,7 +26,7 @@
  * The GRMustacheIdentifierExpression represents expressions such as
  * `identifier`.
  */
-@interface GRMustacheIdentifierExpression : GRMustacheExpression {
+@interface GRMustacheIdentifierExpression : GRMustacheExpression <NSCoding> {
 @private
     NSString *_identifier;
 }

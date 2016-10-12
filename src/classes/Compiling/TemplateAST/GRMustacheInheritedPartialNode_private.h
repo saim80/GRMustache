@@ -31,7 +31,7 @@
  * A GRMustacheInheritedPartialNode is an AST node that represents inherited
  * partials as `{{<name}}...{{/name}}`.
  */
-@interface GRMustacheInheritedPartialNode : NSObject<GRMustacheTemplateASTNode> {
+@interface GRMustacheInheritedPartialNode : NSObject<GRMustacheTemplateASTNode, NSCoding> {
 @private
     GRMustachePartialNode *_parentPartialNode;
     GRMustacheTemplateAST *_overridingTemplateAST;

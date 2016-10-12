@@ -77,4 +77,22 @@
     return self;
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _name = [[aDecoder decodeObjectForKey:@"name"] retain];
+        _innerTemplateAST = [[aDecoder decodeObjectForKey:@"innerTemplateAST"] retain];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_name forKey:@"name"];
+    [aCoder encodeObject:_innerTemplateAST forKey:@"innerTemplateAST"];
+}
+
 @end

@@ -27,7 +27,7 @@
 @class GRMustacheExpression;
 @class GRMustacheTemplateAST;
 
-@interface GRMustacheSectionTag : GRMustacheTag {
+@interface GRMustacheSectionTag : GRMustacheTag <NSCoding> {
 @private
     GRMustacheExpression *_expression;
     BOOL _inverted;

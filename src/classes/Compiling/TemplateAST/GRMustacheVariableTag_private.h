@@ -26,7 +26,7 @@
 
 @class GRMustacheExpression;
 
-@interface GRMustacheVariableTag : GRMustacheTag {
+@interface GRMustacheVariableTag : GRMustacheTag <NSCoding> {
 @private
     GRMustacheExpression *_expression;
     BOOL _escapesHTML;

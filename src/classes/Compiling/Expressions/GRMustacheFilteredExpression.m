@@ -86,4 +86,24 @@
     return self;
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _filterExpression = [[aDecoder decodeObjectForKey:@"filterExpression"] retain];
+        _argumentExpression = [[aDecoder decodeObjectForKey:@"argumentExpression"] retain];
+        _curried = [aDecoder decodeBoolForKey:@"curried"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_filterExpression forKey:@"filterExpression"];
+    [aCoder encodeObject:_argumentExpression forKey:@"argumentExpression"];
+    [aCoder encodeBool:_curried forKey:@"curried"];
+}
+
 @end

@@ -97,4 +97,24 @@
     return self;
 }
 
+#pragma  mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _expression = [[aDecoder decodeObjectForKey:@"expression"] retain];
+        _escapesHTML = [aDecoder decodeBoolForKey:@"escapeHTML"];
+        _contentType = (GRMustacheContentType)[aDecoder decodeIntegerForKey:@"contentType"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_expression forKey:@"expression"];
+    [aCoder encodeBool:_escapesHTML forKey:@"escapeHTML"];
+    [aCoder encodeInteger:_contentType forKey:@"contentType"];
+}
+
 @end

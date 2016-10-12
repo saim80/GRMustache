@@ -30,7 +30,7 @@
  * The GRMustacheExpression is the base class for objects that represent
  * Mustache expression such as `name`, `uppercase(name)`, or `user.name`.
  */
-@interface GRMustacheExpression : NSObject {
+@interface GRMustacheExpression : NSObject <NSCoding> {
 @private
     GRMustacheToken *_token;
 }

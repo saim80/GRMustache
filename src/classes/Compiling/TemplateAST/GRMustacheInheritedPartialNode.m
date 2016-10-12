@@ -101,4 +101,23 @@
     return self;
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _parentPartialNode = [[aDecoder decodeObjectForKey:@"parentPartialNode"] retain];
+        _overridingTemplateAST = [[aDecoder decodeObjectForKey:@"overridingTemplateAST"] retain];
+        
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_parentPartialNode forKey:@"parentPartialNode"];
+    [aCoder encodeObject:_overridingTemplateAST forKey:@"overridingTemplateAST"];
+}
+
 @end

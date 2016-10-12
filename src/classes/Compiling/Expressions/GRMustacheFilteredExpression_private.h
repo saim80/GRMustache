@@ -26,7 +26,7 @@
  * The GRMustacheFilteredExpression represents expressions such as
  * `<expression>(<expression>)`.
  */
-@interface GRMustacheFilteredExpression : GRMustacheExpression {
+@interface GRMustacheFilteredExpression : GRMustacheExpression <NSCoding> {
 @private
     GRMustacheExpression *_filterExpression;
     GRMustacheExpression *_argumentExpression;

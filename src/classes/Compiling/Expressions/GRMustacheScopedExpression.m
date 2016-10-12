@@ -83,4 +83,22 @@
     return self;
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _baseExpression = [[aDecoder decodeObjectForKey:@"baseExpression"] retain];
+        _identifier = [[aDecoder decodeObjectForKey:@"identifier"] retain];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_baseExpression forKey:@"baseExpression"];
+    [aCoder encodeObject:_identifier forKey:@"identifier"];
+}
+
 @end

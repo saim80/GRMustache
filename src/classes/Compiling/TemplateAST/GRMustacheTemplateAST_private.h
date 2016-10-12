@@ -29,7 +29,7 @@
 /**
  * The GRMustacheTemplateAST represents the abstract syntax tree of a template.
  */
-@interface GRMustacheTemplateAST : NSObject<GRMustacheTemplateASTNode> {
+@interface GRMustacheTemplateAST : NSObject<GRMustacheTemplateASTNode, NSCoding> {
 @private
     NSArray *_templateASTNodes;
     GRMustacheContentType _contentType;

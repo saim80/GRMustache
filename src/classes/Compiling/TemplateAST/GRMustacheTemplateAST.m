@@ -73,4 +73,22 @@
     return templateASTNode;
 }
 
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    
+    if (self) {
+        _templateASTNodes = [[aDecoder decodeObjectForKey:@"templateASTNodes"] retain];
+        _contentType = (GRMustacheContentType)[aDecoder decodeIntegerForKey:@"contentType"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_templateASTNodes forKey:@"templateASTNodes"];
+    [aCoder encodeInteger:_contentType forKey:@"contentType"];
+}
+
 @end
