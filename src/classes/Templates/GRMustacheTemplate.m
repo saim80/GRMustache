@@ -159,6 +159,7 @@
         GRMustacheTemplateRepository *templateRepository = [GRMustacheRendering currentTemplateRepository];
         if (templateRepository == nil) {
             templateRepository = [GRMustacheTemplateRepository templateRepositoryWithBundle:[NSBundle mainBundle]];
+            _templateRepository.configuration.baseContext = [_templateRepository.configuration.baseContext contextWithUnsafeKeyAccess];
         }
         
         _templateRepository = [templateRepository retain];
