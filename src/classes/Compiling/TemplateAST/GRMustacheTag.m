@@ -43,7 +43,7 @@
     return nil;
 }
 
-- (NSString *)renderContentWithContext:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderContentWithContext:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
@@ -62,7 +62,7 @@
     return templateASTNode;
 }
 
-- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor error:(NSError **)error
+- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor stop:(BOOL*)stop error:(NSError **)error
 {
     [self doesNotRecognizeSelector:_cmd];
     return NO;

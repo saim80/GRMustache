@@ -87,8 +87,10 @@ static NSString *const GRMustacheLocalizerValuePlaceholder = @"GRMustacheLocaliz
 /**
  * Support for {{# localize }}...{{ value }}...{{ value }}...{{/ localize }}
  */
-- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
+    if (stop && *stop) return @"";
+    
     /**
      * Perform a first rendering of the section tag, that will turn variable
      * tags into a custom placeholder.
@@ -109,7 +111,7 @@ static NSString *const GRMustacheLocalizerValuePlaceholder = @"GRMustacheLocaliz
     context = [context contextByAddingTagDelegate:self];
     
     // Render the localizable format
-    NSString *localizableFormat = [tag renderContentWithContext:context HTMLSafe:HTMLSafe error:error];
+    NSString *localizableFormat = [tag renderContentWithContext:context stop:(BOOL*)stop HTMLSafe:HTMLSafe error:error];
     
     
     /**
@@ -128,7 +130,7 @@ static NSString *const GRMustacheLocalizerValuePlaceholder = @"GRMustacheLocaliz
     self.formatArguments = [NSMutableArray array];
     
     // Fill formatArguments
-    [tag renderContentWithContext:context HTMLSafe:HTMLSafe error:error];
+    [tag renderContentWithContext:context stop:stop HTMLSafe:HTMLSafe error:error];
     
     
     /**

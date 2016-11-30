@@ -34,12 +34,12 @@
 @protocol GRMustacheTemplateASTVisitor <NSObject>
 
 // Don't use these methods directly. Use -[<GRMustacheTemplateASTNode acceptTemplateASTVisitor:error:] instead
-- (BOOL)visitTemplateAST:(GRMustacheTemplateAST *)templateAST error:(NSError **)error GRMUSTACHE_API_INTERNAL;
-- (BOOL)visitInheritedPartialNode:(GRMustacheInheritedPartialNode *)inheritedPartialNode error:(NSError **)error GRMUSTACHE_API_INTERNAL;
-- (BOOL)visitInheritableSectionNode:(GRMustacheInheritableSectionNode *)inheritableSectionNode error:(NSError **)error GRMUSTACHE_API_INTERNAL;
-- (BOOL)visitPartialNode:(GRMustachePartialNode *)partialNode error:(NSError **)error GRMUSTACHE_API_INTERNAL;
-- (BOOL)visitVariableTag:(GRMustacheVariableTag *)variableTag error:(NSError **)error GRMUSTACHE_API_INTERNAL;
-- (BOOL)visitSectionTag:(GRMustacheSectionTag *)sectionTag error:(NSError **)error GRMUSTACHE_API_INTERNAL;
-- (BOOL)visitTextNode:(GRMustacheTextNode *)textNode error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)visitTemplateAST:(GRMustacheTemplateAST *)templateAST stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)visitInheritedPartialNode:(GRMustacheInheritedPartialNode *)inheritedPartialNode stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)visitInheritableSectionNode:(GRMustacheInheritableSectionNode *)inheritableSectionNode stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)visitPartialNode:(GRMustachePartialNode *)partialNode stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)visitVariableTag:(GRMustacheVariableTag *)variableTag stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)visitSectionTag:(GRMustacheSectionTag *)sectionTag stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)visitTextNode:(GRMustacheTextNode *)textNode stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
 
 @end

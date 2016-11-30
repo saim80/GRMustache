@@ -52,7 +52,7 @@
 /**
  * Has the visitor visit the receiver.
  */
-- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_INTERNAL;
 
 /**
  * In the context of template inheritance, return the AST node that should be

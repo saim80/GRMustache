@@ -44,9 +44,9 @@
 
 #pragma mark - GRMustacheTemplateASTNode
 
-- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor error:(NSError **)error
+- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor stop:(BOOL *)stop error:(NSError **)error
 {
-    return [visitor visitInheritedPartialNode:self error:error];
+    return [visitor visitInheritedPartialNode:self stop:stop error:error];
 }
 
 - (id<GRMustacheTemplateASTNode>)resolveTemplateASTNode:(id<GRMustacheTemplateASTNode>)templateASTNode

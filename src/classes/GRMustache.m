@@ -106,7 +106,7 @@
     return [GRMustacheRendering renderingObjectForObject:object];
 }
 
-+ (id<GRMustacheRendering>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error))block
++ (id<GRMustacheRendering>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL* stop, BOOL *HTMLSafe, NSError **error))block
 {
     return [GRMustacheRendering renderingObjectWithBlock:block];
 }

@@ -301,7 +301,7 @@
  *
  * @since v6.0
  */
-- (NSString *)renderObject:(id)object error:(NSError **)error AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
+- (NSString *)renderObject:(id)object stop:(BOOL*)stop error:(NSError **)error AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
 
 /**
  * Renders a template with a context stack initialized with the provided objects
@@ -336,7 +336,7 @@
  *
  * @since v6.0
  */
-- (NSString *)renderContentWithContext:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
+- (NSString *)renderContentWithContext:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @name Accessing Sibling Templates

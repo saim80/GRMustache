@@ -67,18 +67,19 @@
     return GRMustacheTagTypeSection;
 }
 
-- (NSString *)renderContentWithContext:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderContentWithContext:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
+    if (stop && *stop) return @"";
     GRMustacheRenderingEngine *renderingEngine = [GRMustacheRenderingEngine renderingEngineWithContentType:_innerTemplateAST.contentType context:context];
-    return [renderingEngine renderTemplateAST:_innerTemplateAST HTMLSafe:HTMLSafe error:error];
+    return [renderingEngine renderTemplateAST:_innerTemplateAST stop:stop HTMLSafe:HTMLSafe error:error];
 }
 
 
 #pragma mark - <GRMustacheTemplateASTNode>
 
-- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor error:(NSError **)error
+- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor stop:(BOOL *)stop error:(NSError **)error
 {
-    return [visitor visitSectionTag:self error:error];
+    return [visitor visitSectionTag:self stop:stop error:error];
 }
 
 

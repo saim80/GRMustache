@@ -71,6 +71,7 @@
  */
 - (NSString *)renderForMustacheTag:(GRMustacheTag *)tag
                            context:(GRMustacheContext *)context
+                              stop:(BOOL *)stop
                           HTMLSafe:(BOOL *)HTMLSafe
                              error:(NSError **)error AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
 @end
@@ -123,7 +124,7 @@
  *
  * @since v7.0
  */
-+ (id<GRMustacheRendering>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error))renderingBlock AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
++ (id<GRMustacheRendering>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL *stop, BOOL *HTMLSafe, NSError **error))renderingBlock stop:(BOOL*)stop AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
 
 @end
 

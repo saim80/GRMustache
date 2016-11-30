@@ -43,7 +43,7 @@
 /**
  * TODO
  */
-- (NSString *)renderTemplateAST:(GRMustacheTemplateAST *)templateAST HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error GRMUSTACHE_API_INTERNAL;
+- (NSString *)renderTemplateAST:(GRMustacheTemplateAST *)templateAST stop:(BOOL *)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error GRMUSTACHE_API_INTERNAL;
 
 /**
  * TODO

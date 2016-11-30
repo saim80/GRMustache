@@ -44,6 +44,7 @@
 // Documented in GRMustacheRendering.h
 - (NSString *)renderForMustacheTag:(GRMustacheTag *)tag
                            context:(GRMustacheContext *)context
+                              stop:(BOOL *)stop
                           HTMLSafe:(BOOL *)HTMLSafe
                              error:(NSError **)error GRMUSTACHE_API_PUBLIC;
 
@@ -126,6 +127,7 @@
 - (NSString *)renderForMustacheTag:(GRMustacheTag *)tag
                  asEnumerationItem:(BOOL)enumerationItem
                            context:(GRMustacheContext *)context
+                              stop:(BOOL *)stop
                           HTMLSafe:(BOOL *)HTMLSafe
                              error:(NSError **)error GRMUSTACHE_API_INTERNAL;
 
@@ -143,7 +145,7 @@
 + (id<GRMustacheRenderingWithIterationSupport>)renderingObjectForObject:(id)object GRMUSTACHE_API_PUBLIC;
 
 // Documented in GRMustacheRendering.h
-+ (id<GRMustacheRenderingWithIterationSupport>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error))renderingBlock GRMUSTACHE_API_PUBLIC;
++ (id<GRMustacheRenderingWithIterationSupport>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL *stop, BOOL *HTMLSafe, NSError **error))renderingBlock GRMUSTACHE_API_PUBLIC;
 
 + (void)pushCurrentTemplateRepository:(GRMustacheTemplateRepository *)templateRepository GRMUSTACHE_API_INTERNAL;
 + (void)popCurrentTemplateRepository GRMUSTACHE_API_INTERNAL;

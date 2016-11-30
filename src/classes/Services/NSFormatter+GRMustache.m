@@ -49,8 +49,10 @@
 /**
  * Support for {{# formatter }}...{{ value }}...{{ value }}...{{/ formatter }}
  */
-- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
+    if (stop && *stop) return @"";
+    
     switch (tag.type) {
         case GRMustacheTagTypeVariable:
             // {{ formatter }}
@@ -65,7 +67,7 @@
             // Render normally, but listen to all inner tags rendering, so that
             // we can format them. See mustacheTag:willRenderObject: below.
             context = [context contextByAddingTagDelegate:self];
-            return [tag renderContentWithContext:context HTMLSafe:HTMLSafe error:error];
+            return [tag renderContentWithContext:context stop:stop HTMLSafe:HTMLSafe error:error];
     }
 }
 

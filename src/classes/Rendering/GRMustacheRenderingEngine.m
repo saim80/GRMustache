@@ -70,19 +70,21 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
     return [[[self alloc] initWithContentType:contentType context:context] autorelease];
 }
 
-- (NSString *)renderTemplateAST:(GRMustacheTemplateAST *)templateAST HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderTemplateAST:(GRMustacheTemplateAST *)templateAST stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
-    _buffer = GRMustacheBufferCreate(1024);
+    if (stop && *stop) return @"";
+    
+//    _buffer = GRMustacheBufferCreate(1024);
     
     NSString *result = nil;
-    if ([self visitTemplateAST:templateAST error:error]) {
+    if ([self visitTemplateAST:templateAST stop:stop error:error]) {
         if (HTMLSafe) {
             *HTMLSafe = (_contentType == GRMustacheContentTypeHTML);
         }
-        result = GRMustacheBufferGetString(&_buffer);
+//        result = GRMustacheBufferGetString(&_buffer);
     }
     
-    GRMustacheBufferRelease(&_buffer);
+//    GRMustacheBufferRelease(&_buffer);
     
     return result;
 }
@@ -90,8 +92,10 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
 
 #pragma mark - AST Nodes
 
-- (BOOL)visitTemplateAST:(GRMustacheTemplateAST *)templateAST error:(NSError **)error
+- (BOOL)visitTemplateAST:(GRMustacheTemplateAST *)templateAST stop:(BOOL *)stop error:(NSError **)error
 {
+    if (stop && *stop) return YES;
+    
     // We must take care of eventual content-type mismatch between the
     // currently rendered AST (defined by init), and the argument.
     //
@@ -109,17 +113,17 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
         
         GRMustacheRenderingEngine *renderingEngine = [[[GRMustacheRenderingEngine alloc] initWithContentType:ASTContentType context:_context] autorelease];
         BOOL HTMLSafe;
-        NSString *rendering = [renderingEngine renderTemplateAST:templateAST HTMLSafe:&HTMLSafe error:error];
+        NSString *rendering = [renderingEngine renderTemplateAST:templateAST stop:stop HTMLSafe:&HTMLSafe error:error];
         if (!rendering) {
             return NO;
         }
         
         // ... and escape if needed
         
-        if (_contentType == GRMustacheContentTypeHTML && !HTMLSafe) {
-            rendering = GRMustacheTranslateHTMLCharacters(rendering);
-        }
-        GRMustacheBufferAppendString(&_buffer, rendering);
+//        if (_contentType == GRMustacheContentTypeHTML && !HTMLSafe) {
+//            rendering = GRMustacheTranslateHTMLCharacters(rendering);
+//        }
+//        GRMustacheBufferAppendString(&_buffer, rendering);
         return YES;
     }
     else
@@ -127,44 +131,44 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
         // Content-type match
         
         [GRMustacheRendering pushCurrentContentType:ASTContentType];
-        BOOL success = [self visitTemplateASTNodes:templateAST.templateASTNodes error:error];
+        BOOL success = [self visitTemplateASTNodes:templateAST.templateASTNodes stop:stop error:error];
         [GRMustacheRendering popCurrentContentType];
         return success;
     }
 }
 
-- (BOOL)visitInheritedPartialNode:(GRMustacheInheritedPartialNode *)inheritedPartialNode error:(NSError **)error
+- (BOOL)visitInheritedPartialNode:(GRMustacheInheritedPartialNode *)inheritedPartialNode stop:(BOOL*)stop error:(NSError **)error
 {
     GRMustacheContext *context = _context;
     _context = [_context contextByAddingInheritedPartialNode:inheritedPartialNode];
-    BOOL success = [self visitPartialNode:inheritedPartialNode.parentPartialNode error:error];
+    BOOL success = [self visitPartialNode:inheritedPartialNode.parentPartialNode stop:stop error:error];
     _context = context;
     return success;
 }
 
-- (BOOL)visitInheritableSectionNode:(GRMustacheInheritableSectionNode *)inheritableSectionNode error:(NSError **)error
+- (BOOL)visitInheritableSectionNode:(GRMustacheInheritableSectionNode *)inheritableSectionNode stop:(BOOL*)stop error:(NSError **)error
 {
-    return [self visitTemplateAST:inheritableSectionNode.innerTemplateAST error:error];
+    return [self visitTemplateAST:inheritableSectionNode.innerTemplateAST stop:stop error:error];
 }
 
-- (BOOL)visitPartialNode:(GRMustachePartialNode *)partialNode error:(NSError **)error
+- (BOOL)visitPartialNode:(GRMustachePartialNode *)partialNode stop:(BOOL*)stop error:(NSError **)error
 {
-    return [self visitTemplateAST:partialNode.templateAST error:error];
+    return [self visitTemplateAST:partialNode.templateAST stop:stop error:error];
 }
 
-- (BOOL)visitVariableTag:(GRMustacheVariableTag *)variableTag error:(NSError **)error
+- (BOOL)visitVariableTag:(GRMustacheVariableTag *)variableTag stop:(BOOL*)stop error:(NSError **)error
 {
-    return [self visitTag:variableTag expression:variableTag.expression escapesHTML:variableTag.escapesHTML error:error];
+    return [self visitTag:variableTag expression:variableTag.expression escapesHTML:variableTag.escapesHTML stop:stop error:error];
 }
 
-- (BOOL)visitSectionTag:(GRMustacheSectionTag *)sectionTag error:(NSError **)error
+- (BOOL)visitSectionTag:(GRMustacheSectionTag *)sectionTag stop:(BOOL*)stop error:(NSError **)error
 {
-    return [self visitTag:sectionTag expression:sectionTag.expression escapesHTML:YES error:error];
+    return [self visitTag:sectionTag expression:sectionTag.expression escapesHTML:YES stop:stop error:error];
 }
 
-- (BOOL)visitTextNode:(GRMustacheTextNode *)textNode error:(NSError **)error
+- (BOOL)visitTextNode:(GRMustacheTextNode *)textNode stop:(BOOL*)stop error:(NSError **)error
 {
-    GRMustacheBufferAppendString(&_buffer, textNode.text);
+//    GRMustacheBufferAppendString(&_buffer, textNode.text);
     return YES;
 }
 
@@ -183,8 +187,10 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
     return self;
 }
 
-- (BOOL)visitTag:(GRMustacheTag *)tag expression:(GRMustacheExpression *)expression escapesHTML:(BOOL)escapesHTML error:(NSError **)error
+- (BOOL)visitTag:(GRMustacheTag *)tag expression:(GRMustacheExpression *)expression escapesHTML:(BOOL)escapesHTML stop:(BOOL*)stop error:(NSError **)error
 {
+    if (stop && *stop) return YES;
+    
     BOOL success = YES;
     
     @autoreleasepool {
@@ -270,7 +276,7 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
             BOOL HTMLSafe = NO;             // Default NO, so that we assume unsafe rendering from lazy coders who do not explicitly set it.
             switch (tag.type) {
                 case GRMustacheTagTypeVariable:
-                    rendering = [renderingObject renderForMustacheTag:tag context:context HTMLSafe:&HTMLSafe error:&renderingError];
+                    rendering = [renderingObject renderForMustacheTag:tag context:context stop:stop HTMLSafe:&HTMLSafe error:&renderingError];
                     break;
                     
                 case GRMustacheTagTypeSection: {
@@ -285,7 +291,7 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
                     // See +[GRMustacheRendering initialize]
                     BOOL boolValue = [renderingObject mustacheBoolValue];
                     if (!tag.isInverted != !boolValue) {
-                        rendering = [renderingObject renderForMustacheTag:tag context:context HTMLSafe:&HTMLSafe error:&renderingError];
+                        rendering = [renderingObject renderForMustacheTag:tag context:context stop:stop HTMLSafe:&HTMLSafe error:&renderingError];
                     } else {
                         rendering = @"";
                     }
@@ -312,7 +318,7 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
                 if ((_contentType == GRMustacheContentTypeHTML) && !HTMLSafe && escapesHTML) {
                     rendering = GRMustacheTranslateHTMLCharacters(rendering);
                 }
-                GRMustacheBufferAppendString(&_buffer, rendering);
+//                GRMustacheBufferAppendString(&_buffer, rendering);
                 
                 
                 // Post-rendering hooks
@@ -348,11 +354,15 @@ static inline GRMustacheExpressionInvocation *currentThreadCurrentExpressionInvo
     return success;
 }
 
-- (BOOL)visitTemplateASTNodes:(NSArray *)templateASTNodes error:(NSError **)error
+- (BOOL)visitTemplateASTNodes:(NSArray *)templateASTNodes stop:(BOOL *)stop error:(NSError **)error
 {
+    if (stop && *stop) return YES;
+    
     for (id<GRMustacheTemplateASTNode> ASTNode in templateASTNodes) {
+        if (stop && *stop) return YES;
+        
         ASTNode = [self resolveTemplateASTNode:ASTNode];
-        if (![ASTNode acceptTemplateASTVisitor:self error:error]) {
+        if (![ASTNode acceptTemplateASTVisitor:self stop:stop error:error]) {
             return NO;
         }
     }
