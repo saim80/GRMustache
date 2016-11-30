@@ -66,16 +66,16 @@
     return [templateRepository templateNamed:templateName error:error];
 }
 
-+ (NSString *)renderObject:(id)object fromString:(NSString *)templateString error:(NSError **)error
++ (NSString *)renderObject:(id)object stop:(BOOL*)stop fromString:(NSString *)templateString error:(NSError **)error
 {
     GRMustacheTemplate *template = [GRMustacheTemplate templateFromString:templateString error:error];
-    return [template renderObject:object error:error];
+    return [template renderObject:object stop:stop error:error];
 }
 
-+ (NSString *)renderObject:(id)object fromResource:(NSString *)name bundle:(NSBundle *)bundle error:(NSError **)error
++ (NSString *)renderObject:(id)object stop:(BOOL*)stop fromResource:(NSString *)name bundle:(NSBundle *)bundle error:(NSError **)error
 {
     GRMustacheTemplate *template = [GRMustacheTemplate templateFromResource:name bundle:bundle error:error];
-    return [template renderObject:object error:error];
+    return [template renderObject:object stop:stop error:error];
 }
 
 - (void)dealloc
@@ -101,31 +101,31 @@
     self.baseContext = [self.baseContext contextByAddingTagDelegate:tagDelegate];
 }
 
-- (NSString *)renderObject:(id)object error:(NSError **)error
+- (NSString *)renderObject:(id)object stop:(BOOL*)stop error:(NSError **)error
 {
     GRMustacheContext *context = [self.baseContext contextByAddingObject:object];
-    return [self renderContentWithContext:context HTMLSafe:NULL error:error];
+    return [self renderContentWithContext:context stop:stop HTMLSafe:NULL error:error];
 }
 
-- (NSString *)renderObjectsFromArray:(NSArray *)objects error:(NSError **)error
+- (NSString *)renderObjectsFromArray:(NSArray *)objects stop:(BOOL*)stop error:(NSError **)error
 {
     GRMustacheContext *context = self.baseContext;
     for (id object in objects) {
         context = [context contextByAddingObject:object];
     }
-    return [self renderContentWithContext:context HTMLSafe:NULL error:error];
+    return [self renderContentWithContext:context stop:nil HTMLSafe:NULL error:error];
 }
 
-- (NSString *)renderContentWithContext:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderContentWithContext:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
-    NSString *rendering = nil;
+    if (stop && *stop) return @"";
     
     [GRMustacheRendering pushCurrentTemplateRepository:self.templateRepository];
     GRMustacheRenderingEngine *renderingEngine = [GRMustacheRenderingEngine renderingEngineWithContentType:_templateAST.contentType context:context];
-    rendering = [renderingEngine renderTemplateAST:_templateAST HTMLSafe:HTMLSafe error:error];
+    [renderingEngine renderTemplateAST:_templateAST stop:stop HTMLSafe:HTMLSafe error:error];
     [GRMustacheRendering popCurrentTemplateRepository];
     
-    return rendering;
+    return error && *error ? nil : @"";
 }
 
 - (void)setBaseContext:(GRMustacheContext *)baseContext
@@ -145,9 +145,9 @@
 #pragma mark - <GRMustacheRendering>
 
 // Allows template to render as "dynamic partials"
-- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
-    return [self renderContentWithContext:context HTMLSafe:HTMLSafe error:error];
+    return [self renderContentWithContext:context stop:(BOOL*)stop HTMLSafe:HTMLSafe error:error];
 }
 
 #pragma mark- NSCoding

@@ -67,18 +67,18 @@
 + (instancetype)templateFromResource:(NSString *)name bundle:(NSBundle *)bundle error:(NSError **)error GRMUSTACHE_API_PUBLIC;
 
 // Documented in GRMustacheTemplate.h
-+ (NSString *)renderObject:(id)object fromString:(NSString *)templateString error:(NSError **)error GRMUSTACHE_API_PUBLIC;
++ (NSString *)renderObject:(id)object stop:(BOOL*)stop fromString:(NSString *)templateString error:(NSError **)error GRMUSTACHE_API_PUBLIC;
 
 // Documented in GRMustacheTemplate.h
-+ (NSString *)renderObject:(id)object fromResource:(NSString *)name bundle:(NSBundle *)bundle error:(NSError **)error GRMUSTACHE_API_PUBLIC;
++ (NSString *)renderObject:(id)object stop:(BOOL*)stop fromResource:(NSString *)name bundle:(NSBundle *)bundle error:(NSError **)error GRMUSTACHE_API_PUBLIC;
 
 // Documented in GRMustacheTemplate.h
-- (NSString *)renderObject:(id)object error:(NSError **)error GRMUSTACHE_API_PUBLIC;
+- (NSString *)renderObject:(id)object stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_PUBLIC;
 
 // Documented in GRMustacheTemplate.h
-- (NSString *)renderObjectsFromArray:(NSArray *)objects error:(NSError **)error GRMUSTACHE_API_PUBLIC;
+- (NSString *)renderObjectsFromArray:(NSArray *)objects stop:(BOOL*)stop error:(NSError **)error GRMUSTACHE_API_PUBLIC;
 
 // Documented in GRMustacheTemplate.h
-- (NSString *)renderContentWithContext:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error GRMUSTACHE_API_PUBLIC;
+- (NSString *)renderContentWithContext:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error GRMUSTACHE_API_PUBLIC;
 
 @end

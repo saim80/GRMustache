@@ -46,6 +46,6 @@ typedef struct {
 + (id<GRMustacheRendering>)renderingObjectForObject:(id)object GRMUSTACHE_API_PUBLIC_BUT_DEPRECATED;
 
 // Documented in GRMustache.h
-+ (id<GRMustacheRendering>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error))block GRMUSTACHE_API_PUBLIC_BUT_DEPRECATED;
++ (id<GRMustacheRendering>)renderingObjectWithBlock:(NSString *(^)(GRMustacheTag *tag, GRMustacheContext *context, BOOL* stop, BOOL *HTMLSafe, NSError **error))block GRMUSTACHE_API_PUBLIC_BUT_DEPRECATED;
 
 @end

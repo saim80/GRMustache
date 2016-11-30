@@ -61,23 +61,23 @@
 - (NSString *)stringWithTemplateAST:(GRMustacheTemplateAST *)templateAST
 {
     _templateString = [NSMutableString string];
-    [self visitTemplateAST:templateAST error:NULL];
+    [self visitTemplateAST:templateAST stop:nil error:NULL];
     return _templateString;
 }
 
 
 #pragma mark - <GRMustacheTemplateASTVisitor>
 
-- (BOOL)visitTemplateAST:(GRMustacheTemplateAST *)templateAST error:(NSError **)error
+- (BOOL)visitTemplateAST:(GRMustacheTemplateAST *)templateAST stop:(BOOL*)stop error:(NSError **)error
 {
     for (id<GRMustacheTemplateASTNode> ASTNode in templateAST.templateASTNodes) {
-        [ASTNode acceptTemplateASTVisitor:self error:error];
+        [ASTNode acceptTemplateASTVisitor:self stop:nil error:error];
     }
     
     return YES;
 }
 
-- (BOOL)visitInheritedPartialNode:(GRMustacheInheritedPartialNode *)inheritedPartialNode error:(NSError **)error
+- (BOOL)visitInheritedPartialNode:(GRMustacheInheritedPartialNode *)inheritedPartialNode stop:(BOOL*)stop error:(NSError **)error
 {
     NSString *tagStartDelimiter = _templateRepository.configuration.tagStartDelimiter;
     NSString *tagEndDelimiter = _templateRepository.configuration.tagEndDelimiter;
@@ -86,12 +86,12 @@
     NSString *tagEndString = [NSString stringWithFormat:@"%@/%@%@", tagStartDelimiter, partialName, tagEndDelimiter];
     
     [_templateString appendString:tagStartString];
-    [self visitTemplateAST:inheritedPartialNode.overridingTemplateAST error:error];
+    [self visitTemplateAST:inheritedPartialNode.overridingTemplateAST stop:stop error:error];
     [_templateString appendString:tagEndString];
     return YES;
 }
 
-- (BOOL)visitInheritableSectionNode:(GRMustacheInheritableSectionNode *)inheritableSectionNode error:(NSError **)error
+- (BOOL)visitInheritableSectionNode:(GRMustacheInheritableSectionNode *)inheritableSectionNode stop:(BOOL*)stop error:(NSError **)error
 {
     NSString *tagStartDelimiter = _templateRepository.configuration.tagStartDelimiter;
     NSString *tagEndDelimiter = _templateRepository.configuration.tagEndDelimiter;
@@ -99,12 +99,12 @@
     NSString *tagEndString = [NSString stringWithFormat:@"%@/%@%@", tagStartDelimiter, inheritableSectionNode.name, tagEndDelimiter];
     
     [_templateString appendString:tagStartString];
-    [self visitTemplateAST:inheritableSectionNode.innerTemplateAST error:error];
+    [self visitTemplateAST:inheritableSectionNode.innerTemplateAST stop:stop error:error];
     [_templateString appendString:tagEndString];
     return YES;
 }
 
-- (BOOL)visitPartialNode:(GRMustachePartialNode *)partialNode error:(NSError **)error
+- (BOOL)visitPartialNode:(GRMustachePartialNode *)partialNode stop:(BOOL*)stop error:(NSError **)error
 {
     NSString *tagStartDelimiter = _templateRepository.configuration.tagStartDelimiter;
     NSString *tagEndDelimiter = _templateRepository.configuration.tagEndDelimiter;
@@ -114,7 +114,7 @@
     return YES;
 }
 
-- (BOOL)visitVariableTag:(GRMustacheVariableTag *)variableTag error:(NSError **)error
+- (BOOL)visitVariableTag:(GRMustacheVariableTag *)variableTag stop:(BOOL*)stop error:(NSError **)error
 {
     NSString *tagStartDelimiter = nil;
     NSString *tagEndDelimiter = nil;
@@ -131,7 +131,7 @@
     return YES;
 }
 
-- (BOOL)visitSectionTag:(GRMustacheSectionTag *)sectionTag error:(NSError **)error
+- (BOOL)visitSectionTag:(GRMustacheSectionTag *)sectionTag stop:(BOOL *)stop error:(NSError **)error
 {
     NSString *tagStartDelimiter = _templateRepository.configuration.tagStartDelimiter;
     NSString *tagEndDelimiter = _templateRepository.configuration.tagEndDelimiter;
@@ -141,12 +141,12 @@
     NSString *tagEndString = [NSString stringWithFormat:@"%@/%@%@", tagStartDelimiter, expressionString, tagEndDelimiter];
     
     [_templateString appendString:tagStartString];
-    [self visitTemplateAST:sectionTag.innerTemplateAST error:error];
+    [self visitTemplateAST:sectionTag.innerTemplateAST stop:stop error:error];
     [_templateString appendString:tagEndString];
     return YES;
 }
 
-- (BOOL)visitTextNode:(GRMustacheTextNode *)textNode error:(NSError **)error
+- (BOOL)visitTextNode:(GRMustacheTextNode *)textNode stop:(BOOL *)stop error:(NSError **)error
 {
     [_templateString appendString:textNode.text];
     return YES;

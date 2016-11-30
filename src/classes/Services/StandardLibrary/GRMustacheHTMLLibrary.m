@@ -55,7 +55,7 @@
 /**
  * Support for {{# HTML.escape }}...{{ value }}...{{ value }}...{{/ HTML.escape }}
  */
-- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderForMustacheTag:(GRMustacheTag *)tag context:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
     switch (tag.type) {
         case GRMustacheTagTypeVariable:
@@ -71,7 +71,7 @@
             // Render normally, but listen to all inner tags rendering, so that
             // we can format them. See mustacheTag:willRenderObject: below.
             context = [context contextByAddingTagDelegate:self];
-            return [tag renderContentWithContext:context HTMLSafe:HTMLSafe error:error];
+            return [tag renderContentWithContext:context stop:(BOOL*)stop HTMLSafe:HTMLSafe error:error];
     }
 }
 
@@ -91,9 +91,9 @@
             // We want to escape its rendering.
             // So return a rendering object that will eventually render `object`,
             // and escape its rendering.
-            return [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error) {
+            return [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL* stop, BOOL *HTMLSafe, NSError **error) {
                 id<GRMustacheRendering> renderingObject = [GRMustacheRendering renderingObjectForObject:object];
-                NSString *rendering = [renderingObject renderForMustacheTag:tag context:context HTMLSafe:HTMLSafe error:error];
+                NSString *rendering = [renderingObject renderForMustacheTag:tag context:context stop:stop HTMLSafe:HTMLSafe error:error];
                 return GRMustacheTranslateHTMLCharacters(rendering);
             }];
             

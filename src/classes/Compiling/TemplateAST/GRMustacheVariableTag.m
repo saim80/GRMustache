@@ -67,7 +67,7 @@
     return @"";
 }
 
-- (NSString *)renderContentWithContext:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
+- (NSString *)renderContentWithContext:(GRMustacheContext *)context stop:(BOOL *)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error
 {
     if (HTMLSafe) {
         *HTMLSafe = (_contentType == GRMustacheContentTypeHTML);
@@ -78,9 +78,9 @@
 
 #pragma mark - <GRMustacheTemplateASTNode>
 
-- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor error:(NSError **)error
+- (BOOL)acceptTemplateASTVisitor:(id<GRMustacheTemplateASTVisitor>)visitor stop:(BOOL *)stop error:(NSError **)error
 {
-    return [visitor visitVariableTag:self error:error];
+    return [visitor visitVariableTag:self stop:stop error:error];
 }
 
 

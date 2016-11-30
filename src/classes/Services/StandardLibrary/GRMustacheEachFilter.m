@@ -47,7 +47,7 @@
          * eventually gets rendered.
          */
         
-        return [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error) {
+        return [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL* stop, BOOL *HTMLSafe, NSError **error) {
             if (error) {
                 *error = [NSError errorWithDomain:GRMustacheErrorDomain code:GRMustacheErrorCodeRenderingError userInfo:@{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"each filter in tag %@ expects its arguments to conform to the NSFastEnumeration protocol. %@ is not.", tag, object] }];
             }
@@ -99,7 +99,7 @@
          */
         
         indexOfLastObject = index;
-        id<GRMustacheRendering> replacementRenderingObject = [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error) {
+        id<GRMustacheRendering> replacementRenderingObject = [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL* stop, BOOL *HTMLSafe, NSError **error) {
             
             /**
              * Add our positional keys in the rendering context
@@ -117,7 +117,7 @@
              */
             
             id<GRMustacheRenderingWithIterationSupport> originalRenderingObject = [GRMustacheRendering renderingObjectForObject:object];
-            return [originalRenderingObject renderForMustacheTag:tag asEnumerationItem:YES context:context HTMLSafe:HTMLSafe error:error];
+            return [originalRenderingObject renderForMustacheTag:tag asEnumerationItem:YES context:context stop:stop HTMLSafe:HTMLSafe error:error];
         }];
         
         [replacementRenderingObjects addObject:replacementRenderingObject];
@@ -154,7 +154,7 @@
          */
         
         id object = [dictionary objectForKey:key];
-        id<GRMustacheRendering> replacementRenderingObject = [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL *HTMLSafe, NSError **error) {
+        id<GRMustacheRendering> replacementRenderingObject = [GRMustacheRendering renderingObjectWithBlock:^NSString *(GRMustacheTag *tag, GRMustacheContext *context, BOOL *stop, BOOL *HTMLSafe, NSError **error) {
             
             /**
              * Add our positional keys in the rendering context
@@ -173,7 +173,7 @@
              */
             
             id<GRMustacheRenderingWithIterationSupport> originalRenderingObject = [GRMustacheRendering renderingObjectForObject:object];
-            return [originalRenderingObject renderForMustacheTag:tag asEnumerationItem:YES context:context HTMLSafe:HTMLSafe error:error];
+            return [originalRenderingObject renderForMustacheTag:tag asEnumerationItem:YES context:context stop:stop HTMLSafe:HTMLSafe error:error];
         }];
         
         [replacementRenderingObjects addObject:replacementRenderingObject];

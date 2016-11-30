@@ -146,6 +146,6 @@ AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER_BUT_DEPRECATED_IN_GRMUSTACHE_VERSION_
  *
  * @return The rendering of the tag's inner content.
  */
-- (NSString *)renderContentWithContext:(GRMustacheContext *)context HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
+- (NSString *)renderContentWithContext:(GRMustacheContext *)context stop:(BOOL*)stop HTMLSafe:(BOOL *)HTMLSafe error:(NSError **)error AVAILABLE_GRMUSTACHE_VERSION_7_0_AND_LATER;
 
 @end
